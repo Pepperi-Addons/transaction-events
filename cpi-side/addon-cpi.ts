@@ -1,6 +1,6 @@
 import '@pepperi-addons/cpi-node'
 import config from '../addon.config.json';
-import { TransactionEventsScheme, groupBy, TransactionEventListeners } from '../shared';
+import { TransactionEventsScheme, groupBy, TransactionEventListeners } from '@pepperi-addons/events-shared';
 import { SubscriptionManager } from './subscription-manager';
 
 export async function load(configuration: any) {

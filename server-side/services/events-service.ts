@@ -2,7 +2,7 @@ import { FindOptions } from '@pepperi-addons/papi-sdk'
 import { Client } from '@pepperi-addons/debug-server';
 
 import { UtilitiesService } from './utilities-service';
-import { TransactionEventsScheme, TransactionEventListeners} from '../../shared';
+import { TransactionEventsScheme, TransactionEventListeners} from '@pepperi-addons/events-shared';
 
 import config from '../../addon.config.json'
 

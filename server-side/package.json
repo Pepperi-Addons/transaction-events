@@ -29,6 +29,7 @@
     },
     "dependencies": {
         "@pepperi-addons/debug-server": "*",
+        "@pepperi-addons/events-shared": "file:../shared",
         "@pepperi-addons/papi-sdk": "*"
     }
 }
