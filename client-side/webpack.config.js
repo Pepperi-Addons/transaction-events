@@ -7,7 +7,7 @@ const { merge } = require('webpack-merge');
 
 // file_name should be lowercase and if it more then one word put '_' between them,
 const addonConfig = require('../addon.config.json');
-const filename = `file_${addonConfig.AddonUUID.replace(/-/g, '_').toLowerCase()}`;
+const filename = `events`;
 
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(
@@ -36,7 +36,8 @@ module.exports = (config, options, env) => {
                 name: `${filename}`,
                 filename: `${filename}.js`,
                 exposes: {
-                  './BlockModule': './src/app/addon/index.ts'
+                  './TransactionEventsModule': './src/app/events/index.ts',
+                  './TransactionEventsComponent': './src/app/events/index.ts'
                 },
                 shared: share({
                     "@angular/core": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },

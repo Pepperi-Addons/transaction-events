@@ -1,0 +1,25 @@
+import { FindOptions } from '@pepperi-addons/papi-sdk'
+import { Client } from '@pepperi-addons/debug-server';
+
+import { UtilitiesService } from './utilities-service';
+import { TransactionEventsScheme, TransactionEventListeners} from '../../shared';
+
+import config from '../../addon.config.json'
+
+export class EventsService {
+
+    private utilitiesService: UtilitiesService
+
+    constructor(private client: Client) {
+        this.utilitiesService = new UtilitiesService(client);
+    }
+
+    async find (options: FindOptions = {}): Promise<TransactionEventListeners[]> {
+        return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).find(options) as TransactionEventListeners[];
+    }
+
+    async upsert(object: TransactionEventListeners) {
+        return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).upsert(object);
+    }
+
+}

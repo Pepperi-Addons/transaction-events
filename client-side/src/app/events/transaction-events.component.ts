@@ -2,14 +2,14 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angu
 import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
 
-import { AddonService } from "./addon.service";
+import { TransactionEventsService } from "./transation-events.service";
 
 @Component({
     selector: 'addon-block',
-    templateUrl: './addon.component.html',
-    styleUrls: ['./addon.component.scss']
+    templateUrl: './transaction-events.component.html',
+    styleUrls: ['./transaction-events.component.scss']
 })
-export class BlockComponent implements OnInit {
+export class TransactionEventsComponent implements OnInit {
     @Input() hostObject: any;
     
     @Output() hostEvents: EventEmitter<any> = new EventEmitter<any>();
@@ -17,7 +17,7 @@ export class BlockComponent implements OnInit {
     screenSize: PepScreenSizeType;
 
     constructor(
-        public addonService: AddonService,
+        public service: TransactionEventsService,
         public layoutService: PepLayoutService,
         public translate: TranslateService
     ) {

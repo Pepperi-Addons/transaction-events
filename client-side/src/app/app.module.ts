@@ -8,7 +8,7 @@ import { PepAddonService } from '@pepperi-addons/ngx-lib';
 import { TranslateModule, TranslateLoader, TranslateStore } from '@ngx-translate/core';
 
 import { AppRoutingModule } from './app.routes';
-import { BlockModule } from './addon/addon.module';
+import { TransactionEventsModule } from './events';
 import { AppComponent } from './app.component';
 
 @NgModule({
@@ -19,15 +19,16 @@ import { AppComponent } from './app.component';
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        BlockModule,
+        TransactionEventsModule,
         AppRoutingModule,
-        TranslateModule.forRoot({
+        TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
-                useFactory: PepAddonService.createMultiTranslateLoader,
+                useFactory: (addonService: PepAddonService) =>
+                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib'], "d2e046c0-8e2d-4cf6-979e-a365fca4a095"),
                 deps: [PepAddonService]
-            }
-        })
+            }, isolate: false
+        }),
     ],
     providers: [
         TranslateStore,
