@@ -1,13 +1,74 @@
 <pep-dialog [title]="'Events_Form_Title' | translate: {mode: incoming.Mode, field: item.Name}">
     <ng-container pep-dialog-content>
-        <pep-generic-form   
+        <!-- <pep-generic-form   
             [dataSource]="item" 
             [dataView]="incoming.DataView" 
             (valueChange)="onValueChanged($event)" 
             (formValidationChange)="onFormValidation($event)"
             (fieldClick)="onFieldClick($event)"
         >
-        </pep-generic-form>
+        </pep-generic-form> -->
+        <div class="form-row">
+            <pep-textbox
+                [(value)]="item.Name"
+                [label]="'EventsForm_Name_Title' | translate"
+                type="text"
+                [mandatory]="true"
+                (valueChange)="nameChanged($event)"
+            ></pep-textbox>
+            <pep-textbox
+                [(value)]="item.Description"
+                [label]="'EventsForm_Description_Title' | translate"
+                type="text"
+                [mandatory]="false"
+            ></pep-textbox>
+        </div>
+        <div class="form-row">
+            <pep-select
+                [(value)]="item.EventType"
+                [label]="'EventsForm_EventType_Title' | translate"
+                type="select"
+                [mandatory]="false"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="eventTypeOptions"
+            ></pep-select>
+            <pep-select
+                [(value)]="item.EventTiming"
+                [label]="'EventsForm_EventTiming_Title' | translate"
+                type="select"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="eventTimingOptions"
+            ></pep-select>
+        </div>
+        <div class="form-row">
+            <pep-textbox
+                [(value)]="item.FieldID"
+                [label]="'EventsForm_FieldID_Title' | translate"
+                type="text"
+                [mandatory]="false"
+                [disabled]="true"
+            ></pep-textbox>
+            <pep-textbox
+                [(value)]="item.Group"
+                [label]="'EventsForm_Group_Title' | translate"
+                type="int"
+                [mandatory]="false"
+            ></pep-textbox>
+        </div>
+        <div class="form-row">
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'xl'" 
+                [value]="'EventsForm_Script_Title' | translate" 
+                [styleType]="'weak'" 
+                (buttonClick)="openPicker()"
+            ></pep-button>
+            <ng-template #picker> 
+
+            </ng-template>
+        </div>
     </ng-container>
     <ng-container pep-dialog-actions>
         <div class="pep-spacing-element-negative" style="display: flex;">         

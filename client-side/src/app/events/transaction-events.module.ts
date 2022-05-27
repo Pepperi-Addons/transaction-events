@@ -15,6 +15,7 @@ import { PepButtonModule } from '@pepperi-addons/ngx-lib/button';
 import { PepSelectModule } from '@pepperi-addons/ngx-lib/select';
 import { PepCheckboxModule } from '@pepperi-addons/ngx-lib/checkbox';
 import { PepTextboxModule } from '@pepperi-addons/ngx-lib/textbox';
+import { PepRemoteLoaderModule } from '@pepperi-addons/ngx-lib/remote-loader';
 
 import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-list'
 import { PepGenericFormModule } from '@pepperi-addons/ngx-composite-lib/generic-form'
@@ -52,6 +53,7 @@ export const routes: Routes = [
         PepCheckboxModule,
         PepTextboxModule,
         PepSelectModule,
+        PepRemoteLoaderModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,

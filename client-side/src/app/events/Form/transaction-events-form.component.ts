@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild } from "@angular/core";
-import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
+import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild, ViewContainerRef } from "@angular/core";
+import { KeyValuePair, PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
 
 import { TransactionEventsService } from "../transation-events.service";
 import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
-import { TransactionEventListeners } from "@pepperi-addons/events-shared";
+import { PepAddonBlockLoaderService } from '@pepperi-addons/ngx-lib/remote-loader'
+import { EventKeys, EventTimings, TransactionEventListeners } from "@pepperi-addons/events-shared";
 import { FormMode, EventFormData } from '../../entities';
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 
@@ -15,13 +16,31 @@ import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 })
 export class TransactionEventsFormComponent implements OnInit {
 
-    isFormValid: boolean = false;
+    isFormValid: boolean = this.incoming.Mode === 'Edit';
     item: TransactionEventListeners = null;
+
+    eventTypeOptions = Object.keys(EventKeys).map(item => {
+        return {
+            key: item,
+            value: item
+        }
+    });
+
+    eventTimingOptions = Object.keys(EventTimings).map(item => {
+        return {
+            key: item,
+            value: item
+        }
+    })
+
+    hostObject;
     
     constructor (private dialogRef: MatDialogRef<TransactionEventsFormComponent>,
         private translate: TranslateService,
         private dialogService: PepDialogService,
         private listenersService: TransactionEventsService,
+        private blockLoaderService: PepAddonBlockLoaderService,
+        private viewContainerRef: ViewContainerRef,
         @Inject(MAT_DIALOG_DATA) public incoming: EventFormData) { }
 
     ngOnInit() {
@@ -32,8 +51,8 @@ export class TransactionEventsFormComponent implements OnInit {
         console.log($event);
     }
 
-    onFormValidation($event) {
-        this.isFormValid = $event;
+    nameChanged($event) {
+        this.isFormValid = $event && $event != '';
     }
 
     onFieldClick($event) {
@@ -58,5 +77,34 @@ export class TransactionEventsFormComponent implements OnInit {
             });
             this.dialogService.openDefaultDialog(dataMsg);
         }
+    }
+
+    openPicker() {
+        this.hostObject = {
+            runScriptData: this.item.RunScriptData,
+            fields: {
+
+            }
+        }
+        if(this.item.EventKey === 'PreLoadTransactionScope' || this.item.EventKey === 'OnLoadTransactionScope') {
+            this.hostObject.fields['TansactionUUID'] = {
+                Type: 'String'
+            }
+        }
+        else {
+            this.hostObject.fields['ItemUUID'] = {
+                Type: 'String'
+            }
+        }
+        const dialogRef = this.blockLoaderService.loadAddonBlockInDialog({
+            container: this.viewContainerRef,
+            name: 'ScriptPicker',
+            hostObject: this.hostObject,
+            hostEventsCallback: (event) => {
+                console.log(event);
+                this.item.RunScriptData = event;
+                dialogRef.close();
+            }
+        })
     }
 }

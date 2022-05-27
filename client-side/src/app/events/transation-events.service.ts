@@ -225,14 +225,14 @@ export class TransactionEventsService {
             }]
         };
 
-        result.Fields[2]["OptionalValues"] = EventKeys.map(item => {
+        result.Fields[2]["OptionalValues"] = Object.keys(EventKeys).map(item => {
             return {
                 Key: item,
                 Value: item
             }
         });
 
-        result.Fields[3]["OptionalValues"] = EventTimings.map(item => {
+        result.Fields[3]["OptionalValues"] = Object.keys(EventTimings).map(item => {
             return {
                 Key: item,
                 Value: item
