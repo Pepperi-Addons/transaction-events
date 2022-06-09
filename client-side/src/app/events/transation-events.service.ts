@@ -4,7 +4,7 @@ import { FindOptions, FormDataView, PapiClient, Type } from '@pepperi-addons/pap
 import { Injectable } from '@angular/core';
 
 import { PepHttpService, PepSessionService } from '@pepperi-addons/ngx-lib';
-import { EventKeys, EventTimings, TransactionEventListeners } from '@pepperi-addons/events-shared';
+import { EventKeys, EventTimings, SelectOptions, TransactionEventListeners } from '@pepperi-addons/events-shared';
 import { FormMode } from '../entities';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -39,7 +39,7 @@ export class TransactionEventsService {
     async getListeners (options: FindOptions = {}): Promise<TransactionEventListeners[]> {
         return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').get(options);
     }
-
+    
     async upsertListeners (obj: TransactionEventListeners): Promise<TransactionEventListeners> {
         return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').post(undefined, obj);
     }
@@ -48,9 +48,19 @@ export class TransactionEventsService {
         obj.Hidden = true;
         return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').post(undefined, obj);        
     }
-
+    
     async getAtd(uuid: string): Promise<Type>{
         return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('get_atd').get({'uuid': uuid});
+    }
+    
+    async getTypes(): Promise<SelectOptions> {
+        return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_types').get();
+    }
+    
+    async getListenerByKey(itemKey: string): Promise<TransactionEventListeners> {
+        return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').get({
+           key: itemKey
+        });
     }
 
     async createDataView(mode:FormMode, formItem:TransactionEventListeners): Promise<FormDataView> {

@@ -5,6 +5,5 @@ export type FormMode = 'Add' | 'Edit'
 
 export interface EventFormData {
     Item: TransactionEventListeners;
-    DataView: FormDataView
     Mode: FormMode;
 }

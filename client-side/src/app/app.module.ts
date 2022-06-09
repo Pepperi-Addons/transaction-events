@@ -21,11 +21,11 @@ import { AppComponent } from './app.component';
         HttpClientModule,
         TransactionEventsModule,
         AppRoutingModule,
-        TranslateModule.forChild({
+        TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
                 useFactory: (addonService: PepAddonService) =>
-                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib'], "d2e046c0-8e2d-4cf6-979e-a365fca4a095"),
+                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib']),
                 deps: [PepAddonService]
             }, isolate: false
         }),

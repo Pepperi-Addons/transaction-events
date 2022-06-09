@@ -1,3 +1,20 @@
 {
-    "Title_Addon": "Title of the addon"
+    "Events_List_NoDataFound" : "Click add to define new event listeners",
+    "Events_DeleteDialog_Title": "Delete listener",
+    "Events_DeleteDialog_Content": "Are you sure you want to delete this listener",
+    "Events_DeleteDialog_Error": "Cannot delete listener, please try again later",
+    "Events_SaveFailed_Title": "{{Operation}} event listener failed",
+    "Events_SaveFailed_Content": "{{Operation}} event listener with name {{Field}} has failed. \n please try again later.",
+    "Events_List_Title": "Event Listeners",
+    "Events_Add_Title": "Create listener",
+    "Events_Edit_Title": "Edit - {{listener_name}}",
+    "Back_to_list": "Back to list",
+    "EventsForm_Name_Title": "Name",
+    "EventsForm_Description_Title": "Description",
+    "EventsForm_EventType_Title": "Event Type",
+    "EventsForm_EventTiming_Title": "Event Timing",
+    "EventsForm_FieldID_Title": "Field ID",
+    "EventsForm_Group_Title": "Group",
+    "EventsForm_EventATD_Title": "Transaction Type",
+    "EventsForm_Script_Title": "Choose Script"
 }

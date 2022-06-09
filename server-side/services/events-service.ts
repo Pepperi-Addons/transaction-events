@@ -18,8 +18,12 @@ export class EventsService {
         return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).find(options) as TransactionEventListeners[];
     }
 
-    async upsert(object: TransactionEventListeners) {
-        return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).upsert(object);
+    async upsert(object: TransactionEventListeners): Promise<TransactionEventListeners> {
+        return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).upsert(object) as TransactionEventListeners;
+    }
+
+    async getByKey(itemKey: string): Promise<TransactionEventListeners> {
+        return await this.utilitiesService.papiClient.addons.data.uuid(config.AddonUUID).table(TransactionEventsScheme.Name).key(itemKey).get() as TransactionEventListeners;
     }
 
 }

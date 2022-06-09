@@ -57,9 +57,10 @@ export const routes: Routes = [
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
-                useFactory: PepAddonService.createMultiTranslateLoader,
+                useFactory: (addonService: PepAddonService) => 
+                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib']),
                 deps: [PepAddonService]
-            }, isolate: false
+            }
         }),
         RouterModule.forChild(routes)
     ],

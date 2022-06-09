@@ -9,7 +9,13 @@ export async function transaction_event_listeners(client: Client, request: Reque
 
     switch(request.method) {
         case 'GET': {
-            result = await service.find(request.query);
+            const key = request.query.key;
+            if (key) {
+                result = await service.getByKey(key);
+            }
+            else {
+                result = await service.find(request.query);
+            }
             break;
         }
         case 'POST': {
@@ -45,6 +51,21 @@ export async function get_atd(client: Client, request: Request) {
     }
     
     return result;   
+}
+
+export async function transaction_types(client: Client, request: Request) {
+    const service = new UtilitiesService(client);
+    debugger;
+    switch (request.method) {
+        case 'GET': {
+            return await service.getTransactionTypes();
+        }
+        default: {
+            let err: any = new Error(`Method ${request.method} not allowed`);
+            err.code = 405;
+            throw err;            
+        }
+    }
 }
 
 

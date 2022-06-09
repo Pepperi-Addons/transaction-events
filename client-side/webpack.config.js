@@ -37,7 +37,6 @@ module.exports = (config, options, env) => {
                 filename: `${filename}.js`,
                 exposes: {
                   './TransactionEventsModule': './src/app/events/index.ts',
-                  './TransactionEventsComponent': './src/app/events/index.ts'
                 },
                 shared: share({
                     "@angular/core": { eager: true, singleton: true, strictVersion: true, requiredVersion: 'auto' },

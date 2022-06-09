@@ -1,6 +1,6 @@
 import { Client } from "@pepperi-addons/debug-server/dist";
 import { AddonDataScheme, PapiClient, Relation } from "@pepperi-addons/papi-sdk";
-import { TransactionEventsScheme } from "@pepperi-addons/events-shared";
+import { SelectOptions, TransactionEventsScheme } from "@pepperi-addons/events-shared";
 import { AtdRelation } from "../metadata"
 
 export class UtilitiesService {
@@ -32,6 +32,15 @@ export class UtilitiesService {
         }).then((types) => {
             return types[0]
         });
+    }
+
+    async getTransactionTypes(): Promise<SelectOptions> {
+        return (await this.papiClient.metaData.type('transactions').types.get()).map(type => {
+            return {
+                key: type.TypeID!.toString(),
+                value: type.ExternalID!
+            }
+        })
     }
 
 }

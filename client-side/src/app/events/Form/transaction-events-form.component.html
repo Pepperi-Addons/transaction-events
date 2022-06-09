@@ -1,5 +1,23 @@
-<pep-dialog [title]="'Events_Form_Title' | translate: {mode: incoming.Mode, field: item.Name}">
-    <ng-container pep-dialog-content>
+<pep-page-layout [addPadding]="false" *ngIf="formData && itemLoaded">
+    <ng-container pep-top-area>
+        <pep-top-bar [title]="formData?.Mode == 'Add' ? ('Events_Add_Title' | translate) : ('Events_Edit_Title' | translate: {listener_name: item.Name})">
+            <div header-start-content>
+                <!-- <pep-button class="pep-spacing-element" (buttonClick)="goBack()" [iconName]="'arrow_left_alt'"></pep-button> -->
+            </div>
+            <div header-end-content>
+                <pep-button class="pep-spacing-element" [value]="'Back_to_list' | translate" (buttonClick)="goBack()"></pep-button> 
+                <pep-button 
+                    class="pep-spacing-element" 
+                    [value]="formData?.Mode == 'Add' ? ('Save' | translate) : ('Update' | translate)" 
+                    [styleType]="'strong'" 
+                    [disabled]="!isFormValid"
+                    (buttonClick)="save()"
+                ></pep-button>
+            </div>
+        </pep-top-bar>
+    </ng-container>
+
+    <ng-container pep-main-area>  
         <!-- <pep-generic-form   
             [dataSource]="item" 
             [dataView]="incoming.DataView" 
@@ -44,34 +62,38 @@
         </div>
         <div class="form-row">
             <pep-textbox
-                [(value)]="item.FieldID"
-                [label]="'EventsForm_FieldID_Title' | translate"
-                type="text"
-                [mandatory]="false"
-                [disabled]="true"
+            [(value)]="item.FieldID"
+            [label]="'EventsForm_FieldID_Title' | translate"
+            type="text"
+            [mandatory]="false"
+            [disabled]="true"
             ></pep-textbox>
             <pep-textbox
-                [(value)]="item.Group"
-                [label]="'EventsForm_Group_Title' | translate"
-                type="int"
-                [mandatory]="false"
+            [(value)]="item.Group"
+            [label]="'EventsForm_Group_Title' | translate"
+            type="int"
+            [mandatory]="false"
             ></pep-textbox>
         </div>
         <div class="form-row">
+            <pep-select
+                [(value)]="item.AtdID"
+                [label]="'EventsForm_EventATD_Title' | translate"
+                type="select"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="transactionTypesOptions"
+            ></pep-select>
             <pep-button 
                 class="pep-spacing-element"
-                [sizeType]="'xl'" 
+                [sizeType]="'md'" 
                 [value]="'EventsForm_Script_Title' | translate" 
                 [styleType]="'weak'" 
                 (buttonClick)="openPicker()"
             ></pep-button>
-            <ng-template #picker> 
-
-            </ng-template>
         </div>
-    </ng-container>
-    <ng-container pep-dialog-actions>
-        <div class="pep-spacing-element-negative" style="display: flex;">         
+    
+        <!-- <div class="pep-spacing-element-negative" style="display: flex;">         
             <pep-button 
                 class="pep-spacing-element"
                 [sizeType]="'md'" 
@@ -87,6 +109,6 @@
                 (buttonClick)="save()"
                 [disabled]="!isFormValid"
             ></pep-button>
-        </div>
+        </div> -->
     </ng-container>
-</pep-dialog>
+</pep-page-layout>

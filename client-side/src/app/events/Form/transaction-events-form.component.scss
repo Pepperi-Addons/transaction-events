@@ -3,8 +3,11 @@
     flex-direction: row;
     width: 100%;
     gap:1rem;
-    pep-textbox, pep-select {
+    pep-textbox, pep-select, pep-button {
         width: 100%;
         align-content: space-between;
+    }
+    pep-button {
+        margin-top: 23px;
     }
 }

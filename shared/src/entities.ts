@@ -1,24 +1,24 @@
 import { AddonData } from "@pepperi-addons/papi-sdk";
 
-export enum EventKeys {
+export const EventKeys = [
     'PreLoadTransactionScope',
     'OnLoadTransactionScope',
     'SetFieldValue',
     'IncrementFieldValue',
     'DecrementFieldValue'
-};
+] as const
 
-export enum EventTimings { 
+export const EventTimings = [ 
     'Before',
     'Main',
     'After'
-}
+] as const
 
-export type EventKey = keyof typeof EventKeys;
-export type EventTiming = keyof typeof EventTimings;
+export type EventKey = typeof EventKeys[number];
+export type EventTiming = typeof EventTimings[number];
 
 export interface TransactionEventListeners extends AddonData {
-    AtdID: number,
+    AtdID: string,
     Name: string, 
     Description: string,
     Key: string,
@@ -29,3 +29,8 @@ export interface TransactionEventListeners extends AddonData {
     Group: number,
     Active: boolean
 }
+
+export type SelectOptions = {
+    key: string,
+    value: string
+}[]

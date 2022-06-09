@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef } from "@angular/core";
 import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -10,6 +10,9 @@ import { TransactionEventsFormComponent } from "./Form/transaction-events-form.c
 import { IPepGenericListActions, IPepGenericListDataSource } from "@pepperi-addons/ngx-composite-lib/generic-list";
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
 import { Type } from "@pepperi-addons/papi-sdk";
+import { PepAddonBlockLoaderService } from "@pepperi-addons/ngx-lib/remote-loader";
+import { ActivatedRoute, Router } from "@angular/router";
+import { v4 as uuid } from 'uuid'
 
 @Component({
     selector: 'addon-block',
@@ -35,7 +38,9 @@ export class TransactionEventsComponent implements OnInit {
         public service: TransactionEventsService,
         public layoutService: PepLayoutService,
         public translate: TranslateService,
-        public dialogService: PepDialogService
+        public dialogService: PepDialogService,
+        private activateRoute: ActivatedRoute,
+        private router: Router
     ) {
         this.layoutService.onResize$.subscribe(size => {
             this.screenSize = size;
@@ -43,12 +48,13 @@ export class TransactionEventsComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.service.addonUUID = this.hostObject.options.addonId;
-        this.service.getAtd(this.hostObject.objectList[0]).then(value => {
-            this.atd = value;
-            this.eventsDataSource = this.getDataSource();
-        });
-        
+        //this.service.addonUUID = 'd2e046c0-8e2d-4cf6-979e-a365fca4a095' //this.hostObject.options.addonId;
+        // this.service.getAtd('eb9269bb-3fe3-4c5c-9efa-0b867b6c5467').then(value => {
+        //     this.atd = value;
+        //     this.eventsDataSource = this.getDataSource();
+        // });
+        this.service.addonUUID = this.activateRoute.snapshot.params.addon_uuid;
+        this.eventsDataSource = this.getDataSource();
     }
 
     openDialog() {
@@ -160,7 +166,16 @@ export class TransactionEventsComponent implements OnInit {
                     actions.push({
                         title: this.translate.instant('Edit'),
                         handler: async (objs) => {
-                            this.openForm('Edit', objs.rows[0]);
+                            this.navigateToForm('Edit', objs.rows[0]);
+                            // const dialogRef = this.blockLoaderService.loadAddonBlockInDialog({
+                            //     container: this.viewContainerRef,
+                            //     name: 'ScriptPicker',
+                            //     hostObject: {},
+                            //     hostEventsCallback: (event) => {
+                            //         console.log(event);
+                            //         dialogRef.close();
+                            //     }
+                            // })
                         }
                     })
                     actions.push({
@@ -175,11 +190,11 @@ export class TransactionEventsComponent implements OnInit {
         }
     }
 
-    async openForm(mode: FormMode, selectedKey: string = undefined) {
+    async navigateToForm(mode: FormMode, selectedKey: string = uuid()) {
         const item = this.listeners.find(mapping=> mapping.Key === selectedKey);
         const formItem: TransactionEventListeners = {
             Key: selectedKey,
-            AtdID: this.atd.InternalID,
+            AtdID: item?.AtdID || '',
             Active: item?.Active || true,
             Name: item?.Name || '',
             Description: item?.Description || '',
@@ -191,18 +206,23 @@ export class TransactionEventsComponent implements OnInit {
         }
         const formData: EventFormData = {
             Item: formItem,
-            DataView: await this.service.createDataView(mode, formItem),
+            // DataView: await this.service.createDataView(mode, formItem),
             Mode: mode
         }
-        const config = this.dialogService.getDialogConfig({ }, 'large');
-        config.data = new PepDialogData({
-            content: TransactionEventsFormComponent
+        // const config = this.dialogService.getDialogConfig({ }, 'large');
+        // config.data = new PepDialogData({
+        //     content: TransactionEventsFormComponent
+        // })
+        // this.dialogService.openDialog(TransactionEventsFormComponent, formData, config).afterClosed().subscribe((value) => {
+        //     if (value) {
+        //         this.getDataSource();
+        //     }
+        // });
+        this.router['formData'] = formData;
+        this.router.navigate([selectedKey], {
+            relativeTo: this.activateRoute,
+            queryParamsHandling: 'preserve'
         })
-        this.dialogService.openDialog(TransactionEventsFormComponent, formData, config).afterClosed().subscribe((value) => {
-            if (value) {
-                this.getDataSource();
-            }
-        });
     }
 
     showDeleteDialog(selectedKey: string) {
@@ -217,7 +237,7 @@ export class TransactionEventsComponent implements OnInit {
                 if (isDeletePressed) {
                     try {
                         await this.service.deleteListerner(item);
-                        this.getDataSource();
+                        this.eventsDataSource = this.getDataSource();
                     }
                     catch (err) {
                         const errorMsg = new PepDialogData({
