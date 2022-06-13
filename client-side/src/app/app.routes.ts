@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BlockComponent } from './addon/addon.component';
+import { TransactionEventsComponent } from './events/transaction-events.component';
 
 // Important for single spa
 @Component({
@@ -16,7 +16,7 @@ const routes: Routes = [
         children: [
             {
                 path: ':editor',
-                component: BlockComponent
+                component: TransactionEventsComponent
                 // TODO: solve routing
                 // path: '**',
                 // loadChildren: () => import('./addon/addon.module').then(m => m.BlockModule)

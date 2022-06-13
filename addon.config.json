@@ -1,6 +1,6 @@
 {
   "AddonUUID": "d2e046c0-8e2d-4cf6-979e-a365fca4a095",
-  "AddonVersion": "0.0.0",
+  "AddonVersion": "0.0.1",
   "DebugPort": 4500,
   "WebappBaseUrl": "https://app.sandbox.pepperi.com",
   "DefaultEditor": "main",
@@ -13,16 +13,11 @@
   ],
   "PublishConfig": {
     "ClientStack": "ng10",
-    "Editors": [
-      {
-        "ParentPackageName": "CHANGE_TO_ADDON_CONTAINER_NAME",
-        "PackageName": "CHANGE_TO_ADDON_PATH",
-        "Description": "CHANGE_TO_ADDON_DESCRIPTION"
-      }
-    ],
+    "Editors": [],
     "Dependencies": {},
     "CPISide": [
-      "addon-cpi.ts"
+      "addon-cpi.ts",
+      "subscription-manager.ts"
     ]
   }
 }

@@ -1,13 +1,14 @@
 import { Observable } from 'rxjs';
 import jwt from 'jwt-decode';
-import { PapiClient } from '@pepperi-addons/papi-sdk';
+import { FindOptions, PapiClient } from '@pepperi-addons/papi-sdk';
 import { Injectable } from '@angular/core';
 
 import { PepHttpService, PepSessionService } from '@pepperi-addons/ngx-lib';
+import { TransactionEventListeners } from '../../../../shared/src/entities';
 
 
 @Injectable({ providedIn: 'root' })
-export class AddonService {
+export class TransactionEventsService {
 
     accessToken = '';
     parsedToken: any
@@ -32,21 +33,12 @@ export class AddonService {
         this.papiBaseURL = this.parsedToken["pepperi.baseurl"];
     }
 
-    async get(endpoint: string): Promise<any> {
-        return await this.papiClient.get(endpoint);
+    async find (options: FindOptions = {}): Promise<TransactionEventListeners[]> {
+        return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').get(options);
     }
 
-    async post(endpoint: string, body: any): Promise<any> {
-        return await this.papiClient.post(endpoint, body);
-    }
-
-    pepGet(endpoint: string): Observable<any> {
-        return this.pepHttp.getPapiApiCall(endpoint);
-    }
-
-    pepPost(endpoint: string, body: any): Observable<any> {
-        return this.pepHttp.postPapiApiCall(endpoint, body);
-
+    async upsert (obj: TransactionEventListeners): Promise<TransactionEventListeners> {
+        return await this.papiClient.addons.api.uuid(this.addonUUID).file('api').func('transaction_event_listeners').post(obj);
     }
 
 }

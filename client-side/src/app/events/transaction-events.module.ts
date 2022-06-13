@@ -11,8 +11,8 @@ import { PepIconRegistry, pepIconSystemClose } from '@pepperi-addons/ngx-lib/ico
 
 import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 
-import { AddonService } from './addon.service';
-import { BlockComponent } from './index';
+import { TransactionEventsService } from './transation-events.service';
+import { TransactionEventsComponent } from './index';
 
 const pepIcons = [
     pepIconSystemClose,
@@ -21,13 +21,13 @@ const pepIcons = [
 export const routes: Routes = [
     {
         path: '',
-        component: BlockComponent
+        component: TransactionEventsComponent
     }
 ];
 
 @NgModule({
     declarations: [
-        BlockComponent,
+        TransactionEventsComponent,
     ],
     imports: [
         CommonModule,
@@ -45,14 +45,14 @@ export const routes: Routes = [
         }),
         RouterModule.forChild(routes)
     ],
-    exports:[BlockComponent],
+    exports:[TransactionEventsComponent],
     providers: [
         TranslateStore,
         // When loading this module from route we need to add this here (because only this module is loading).
-        AddonService
+        TransactionEventsService
     ]
 })
-export class BlockModule {
+export class TransactionEventsModule {
     constructor(
         translate: TranslateService,
         private pepIconRegistry: PepIconRegistry,
