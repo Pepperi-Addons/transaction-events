@@ -21,7 +21,6 @@ export async function install(client: Client, request: Request): Promise<any> {
 
     try {
         await service.createADALScheme();
-        await service.createRelation();
     }
     catch (err) {
         if (err instanceof Error) {

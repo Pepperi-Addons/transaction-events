@@ -115,16 +115,8 @@ export class TransactionEventsFormComponent implements OnInit {
         })
     }
 
-    onValueChanged($event) {
-        console.log($event);
-    }
-
     nameChanged($event) {
         this.isFormValid = $event && $event != '';
-    }
-
-    onFieldClick($event) {
-        console.log($event);
     }
 
     goBack() {
