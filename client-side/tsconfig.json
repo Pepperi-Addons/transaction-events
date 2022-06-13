@@ -27,6 +27,5 @@
     ],
     "include": [
         "src/**/*.d.ts",
-        "../shared/*.ts"
-, "../shared/src/metadata.ts", "../shared/src/entities.ts"    ]
+    ]
 }

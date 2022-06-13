@@ -1,0 +1,114 @@
+<pep-page-layout [addPadding]="false" *ngIf="formData && itemLoaded">
+    <ng-container pep-top-area>
+        <pep-top-bar [title]="formData?.Mode == 'Add' ? ('Events_Add_Title' | translate) : ('Events_Edit_Title' | translate: {listener_name: item.Name})">
+            <div header-start-content>
+                <!-- <pep-button class="pep-spacing-element" (buttonClick)="goBack()" [iconName]="'arrow_left_alt'"></pep-button> -->
+            </div>
+            <div header-end-content>
+                <pep-button class="pep-spacing-element" [value]="'Back_to_list' | translate" (buttonClick)="goBack()"></pep-button> 
+                <pep-button 
+                    class="pep-spacing-element" 
+                    [value]="formData?.Mode == 'Add' ? ('Save' | translate) : ('Update' | translate)" 
+                    [styleType]="'strong'" 
+                    [disabled]="!isFormValid"
+                    (buttonClick)="save()"
+                ></pep-button>
+            </div>
+        </pep-top-bar>
+    </ng-container>
+
+    <ng-container pep-main-area>  
+        <!-- <pep-generic-form   
+            [dataSource]="item" 
+            [dataView]="incoming.DataView" 
+            (valueChange)="onValueChanged($event)" 
+            (formValidationChange)="onFormValidation($event)"
+            (fieldClick)="onFieldClick($event)"
+        >
+        </pep-generic-form> -->
+        <div class="form-row">
+            <pep-textbox
+                [(value)]="item.Name"
+                [label]="'EventsForm_Name_Title' | translate"
+                type="text"
+                [mandatory]="true"
+                (valueChange)="nameChanged($event)"
+            ></pep-textbox>
+            <pep-textbox
+                [(value)]="item.Description"
+                [label]="'EventsForm_Description_Title' | translate"
+                type="text"
+                [mandatory]="false"
+            ></pep-textbox>
+        </div>
+        <div class="form-row">
+            <pep-select
+                [(value)]="item.EventType"
+                [label]="'EventsForm_EventType_Title' | translate"
+                type="select"
+                [mandatory]="false"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="eventTypeOptions"
+            ></pep-select>
+            <pep-select
+                [(value)]="item.EventTiming"
+                [label]="'EventsForm_EventTiming_Title' | translate"
+                type="select"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="eventTimingOptions"
+            ></pep-select>
+        </div>
+        <div class="form-row">
+            <pep-textbox
+            [(value)]="item.FieldID"
+            [label]="'EventsForm_FieldID_Title' | translate"
+            type="text"
+            [mandatory]="false"
+            [disabled]="true"
+            ></pep-textbox>
+            <pep-textbox
+            [(value)]="item.Group"
+            [label]="'EventsForm_Group_Title' | translate"
+            type="int"
+            [mandatory]="false"
+            ></pep-textbox>
+        </div>
+        <div class="form-row">
+            <pep-select
+                [(value)]="item.AtdID"
+                [label]="'EventsForm_EventATD_Title' | translate"
+                type="select"
+                [disabled]="false"
+                [emptyOption]="false"
+                [options]="transactionTypesOptions"
+            ></pep-select>
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'md'" 
+                [value]="'EventsForm_Script_Title' | translate" 
+                [styleType]="'weak'" 
+                (buttonClick)="openPicker()"
+            ></pep-button>
+        </div>
+    
+        <!-- <div class="pep-spacing-element-negative" style="display: flex;">         
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'md'" 
+                [value]="'Cancel' | translate" 
+                [styleType]="'weak'" 
+                (buttonClick)="close()"
+            ></pep-button>
+            <pep-button 
+                class="pep-spacing-element"
+                [sizeType]="'md'" 
+                [value]="'Save' | translate" 
+                [styleType]="'strong'" 
+                (buttonClick)="save()"
+                [disabled]="!isFormValid"
+            ></pep-button>
+        </div> -->
+    </ng-container>
+</pep-page-layout>

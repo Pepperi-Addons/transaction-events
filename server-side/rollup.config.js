@@ -22,7 +22,7 @@ export default config.Endpoints.map(endpoint => {
                      module: "es2015",
                      declaration: false
                  },
-                 include: ['**/*.ts', '../shared/**/*.ts']
+                 include: ['**/*.ts']
              }
           }),
           resolve(),

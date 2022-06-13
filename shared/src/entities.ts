@@ -1,7 +1,23 @@
-export type EventKey = 'PreLoadTransactionScope' | 'OnLoadTransactionScope' | 'SetFieldValue' | 'IncrementFieldValue' | 'DecrementFieldValue';
-export type EventTiming = 'Before' | 'Main' | 'After';
+import { AddonData } from "@pepperi-addons/papi-sdk";
 
-export interface TransactionEventListeners {
+export const EventKeys = [
+    'PreLoadTransactionScope',
+    'OnLoadTransactionScope',
+    'SetFieldValue',
+    'IncrementFieldValue',
+    'DecrementFieldValue'
+] as const
+
+export const EventTimings = [ 
+    'Before',
+    'Main',
+    'After'
+] as const
+
+export type EventKey = typeof EventKeys[number];
+export type EventTiming = typeof EventTimings[number];
+
+export interface TransactionEventListeners extends AddonData {
     AtdID: string,
     Name: string, 
     Description: string,
@@ -13,3 +29,8 @@ export interface TransactionEventListeners {
     Group: number,
     Active: boolean
 }
+
+export type SelectOptions = {
+    key: string,
+    value: string
+}[]

@@ -1,6 +1,6 @@
 import '@pepperi-addons/cpi-node';
 import { EventData } from '@pepperi-addons/cpi-node';
-import {TransactionEventListeners} from '../shared'
+import {TransactionEventListeners} from '@pepperi-addons/events-shared'
 
 export class SubscriptionManager {
     

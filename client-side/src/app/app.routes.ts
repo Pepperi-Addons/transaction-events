@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { TransactionEventsFormComponent } from './events/Form/transaction-events-form.component';
 import { TransactionEventsComponent } from './events/transaction-events.component';
 
 // Important for single spa
@@ -17,6 +18,13 @@ const routes: Routes = [
             {
                 path: ':editor',
                 component: TransactionEventsComponent
+                // TODO: solve routing
+                // path: '**',
+                // loadChildren: () => import('./addon/addon.module').then(m => m.BlockModule)
+            },
+            {
+                path: ':editor/:key',
+                component: TransactionEventsFormComponent
                 // TODO: solve routing
                 // path: '**',
                 // loadChildren: () => import('./addon/addon.module').then(m => m.BlockModule)

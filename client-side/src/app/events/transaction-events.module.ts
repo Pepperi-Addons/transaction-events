@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
 
 import { PepNgxLibModule, PepAddonService } from '@pepperi-addons/ngx-lib';
 import { PepTopBarModule } from '@pepperi-addons/ngx-lib/top-bar';
@@ -9,11 +10,19 @@ import { PepSizeDetectorModule } from '@pepperi-addons/ngx-lib/size-detector';
 import { PepPageLayoutModule } from '@pepperi-addons/ngx-lib/page-layout';
 import { PepIconRegistry, pepIconSystemClose } from '@pepperi-addons/ngx-lib/icon';
 
-import { TranslateLoader, TranslateModule, TranslateService, TranslateStore } from '@ngx-translate/core';
+import { PepDialogModule } from '@pepperi-addons/ngx-lib/dialog';
+import { PepButtonModule } from '@pepperi-addons/ngx-lib/button';
+import { PepSelectModule } from '@pepperi-addons/ngx-lib/select';
+import { PepCheckboxModule } from '@pepperi-addons/ngx-lib/checkbox';
+import { PepTextboxModule } from '@pepperi-addons/ngx-lib/textbox';
+import { PepRemoteLoaderModule } from '@pepperi-addons/ngx-lib/remote-loader';
+
+import { PepGenericListModule } from '@pepperi-addons/ngx-composite-lib/generic-list'
+import { PepGenericFormModule } from '@pepperi-addons/ngx-composite-lib/generic-form'
 
 import { TransactionEventsService } from './transation-events.service';
-import { TransactionEventsComponent } from './index';
-
+import { TransactionEventsComponent } from './transaction-events.component';
+import { TransactionEventsFormComponent } from './Form/transaction-events-form.component';
 const pepIcons = [
     pepIconSystemClose,
 ];
@@ -28,6 +37,7 @@ export const routes: Routes = [
 @NgModule({
     declarations: [
         TransactionEventsComponent,
+        TransactionEventsFormComponent
     ],
     imports: [
         CommonModule,
@@ -36,12 +46,21 @@ export const routes: Routes = [
         PepSizeDetectorModule,
         PepTopBarModule,
         PepPageLayoutModule,
+        PepGenericListModule,
+        PepGenericFormModule,
+        PepDialogModule,
+        PepButtonModule,
+        PepCheckboxModule,
+        PepTextboxModule,
+        PepSelectModule,
+        PepRemoteLoaderModule,
         TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
-                useFactory: PepAddonService.createMultiTranslateLoader,
+                useFactory: (addonService: PepAddonService) => 
+                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib']),
                 deps: [PepAddonService]
-            }, isolate: false
+            }
         }),
         RouterModule.forChild(routes)
     ],
