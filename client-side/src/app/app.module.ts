@@ -21,7 +21,7 @@ import { AppComponent } from './app.component';
         HttpClientModule,
         TransactionEventsModule,
         AppRoutingModule,
-        TranslateModule.forRoot({
+        TranslateModule.forChild({
             loader: {
                 provide: TranslateLoader,
                 useFactory: (addonService: PepAddonService) =>
