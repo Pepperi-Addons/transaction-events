@@ -31,6 +31,31 @@ export class SubscriptionManager {
 
             await this.handleEvents(events, data, next, main);
         })
+
+        pepperi.events.intercept('SetFieldValue', filter, async (data: EventData, next, main) => {
+            const events = this.configs.filter((item) => {
+                return item.EventKey === 'SetFieldValue' && (item.FieldID ? item.FieldID === data.FieldID : true)
+            })
+
+            await this.handleEvents(events, data, next, main);
+        })
+        
+        pepperi.events.intercept('IncrementFieldValue', filter, async (data: EventData, next, main) => {
+            const events = this.configs.filter((item) => {
+                return item.EventKey === 'IncrementFieldValue' && (item.FieldID ? item.FieldID === data.FieldID : true)
+            })
+
+            await this.handleEvents(events, data, next, main);
+        })
+
+        pepperi.events.intercept('DecrementFieldValue', filter, async (data: EventData, next, main) => {
+            debugger;
+        const events = this.configs.filter((item) => {
+                return item.EventKey === 'DecrementFieldValue' && (item.FieldID ? item.FieldID === data.FieldID : true)
+            })
+
+            await this.handleEvents(events, data, next, main);
+        })
     }
 
     async handleEvents(events: TransactionEventListeners[], data: EventData, next, main) {

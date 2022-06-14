@@ -2,7 +2,6 @@
     <ng-container pep-top-area>
         <pep-top-bar [title]="formData?.Mode == 'Add' ? ('Events_Add_Title' | translate) : ('Events_Edit_Title' | translate: {listener_name: item.Name})">
             <div header-start-content>
-                <!-- <pep-button class="pep-spacing-element" (buttonClick)="goBack()" [iconName]="'arrow_left_alt'"></pep-button> -->
             </div>
             <div header-end-content>
                 <pep-button class="pep-spacing-element" [value]="'Back_to_list' | translate" (buttonClick)="goBack()"></pep-button> 
@@ -18,14 +17,6 @@
     </ng-container>
 
     <ng-container pep-main-area>  
-        <!-- <pep-generic-form   
-            [dataSource]="item" 
-            [dataView]="incoming.DataView" 
-            (valueChange)="onValueChanged($event)" 
-            (formValidationChange)="onFormValidation($event)"
-            (fieldClick)="onFieldClick($event)"
-        >
-        </pep-generic-form> -->
         <div class="form-row">
             <pep-textbox
                 [(value)]="item.Name"
@@ -43,7 +34,7 @@
         </div>
         <div class="form-row">
             <pep-select
-                [(value)]="item.EventType"
+                [(value)]="item.EventKey"
                 [label]="'EventsForm_EventType_Title' | translate"
                 type="select"
                 [mandatory]="false"
@@ -52,7 +43,7 @@
                 [options]="eventTypeOptions"
             ></pep-select>
             <pep-select
-                [(value)]="item.EventTiming"
+                [(value)]="item.Timing"
                 [label]="'EventsForm_EventTiming_Title' | translate"
                 type="select"
                 [disabled]="false"
@@ -66,7 +57,7 @@
             [label]="'EventsForm_FieldID_Title' | translate"
             type="text"
             [mandatory]="false"
-            [disabled]="true"
+            [disabled]="false"
             ></pep-textbox>
             <pep-textbox
             [(value)]="item.Group"
@@ -92,23 +83,5 @@
                 (buttonClick)="openPicker()"
             ></pep-button>
         </div>
-    
-        <!-- <div class="pep-spacing-element-negative" style="display: flex;">         
-            <pep-button 
-                class="pep-spacing-element"
-                [sizeType]="'md'" 
-                [value]="'Cancel' | translate" 
-                [styleType]="'weak'" 
-                (buttonClick)="close()"
-            ></pep-button>
-            <pep-button 
-                class="pep-spacing-element"
-                [sizeType]="'md'" 
-                [value]="'Save' | translate" 
-                [styleType]="'strong'" 
-                (buttonClick)="save()"
-                [disabled]="!isFormValid"
-            ></pep-button>
-        </div> -->
     </ng-container>
 </pep-page-layout>
