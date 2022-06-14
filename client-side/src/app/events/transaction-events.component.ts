@@ -7,7 +7,7 @@ import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog"
 import { TransactionEventListeners } from "@pepperi-addons/events-shared";
 import { FormMode, EventFormData } from '../entities';
 import { TransactionEventsFormComponent } from "./Form/transaction-events-form.component";
-import { IPepGenericListActions, IPepGenericListDataSource } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { GenericListComponent, IPepGenericListActions, IPepGenericListDataSource } from "@pepperi-addons/ngx-composite-lib/generic-list";
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
 import { Type } from "@pepperi-addons/papi-sdk";
 import { PepAddonBlockLoaderService } from "@pepperi-addons/ngx-lib/remote-loader";
@@ -90,7 +90,7 @@ export class TransactionEventsComponent implements OnInit {
                                 ReadOnly: true
                             },
                             {
-                                FieldID: 'ModifictionDateTime',
+                                FieldID: 'ModificationDateTime',
                                 Type: 'DateAndTime',
                                 Title: this.translate.instant('Modification Date'),
                                 Mandatory: false,
@@ -163,25 +163,30 @@ export class TransactionEventsComponent implements OnInit {
             get: async (data: PepSelectionData) => {
                 const actions = []
                 if (data && data.rows.length == 1) {
+                    const item = this.listeners.find(item => item.Key === data.rows[0]);
                     actions.push({
                         title: this.translate.instant('Edit'),
                         handler: async (objs) => {
                             this.navigateToForm('Edit', objs.rows[0]);
-                            // const dialogRef = this.blockLoaderService.loadAddonBlockInDialog({
-                            //     container: this.viewContainerRef,
-                            //     name: 'ScriptPicker',
-                            //     hostObject: {},
-                            //     hostEventsCallback: (event) => {
-                            //         console.log(event);
-                            //         dialogRef.close();
-                            //     }
-                            // })
                         }
                     })
                     actions.push({
                         title: this.translate.instant('Delete'),
                         handler: async (objs) => {
                             this.showDeleteDialog(objs.rows[0]);
+                        }
+                    })
+                    actions.push({
+                        title: item?.Active ? this.translate.instant('DeActivate') : this.translate.instant('Activate'),
+                        handler: async (objs) => {
+                            if(item) {
+                                item.Active = !item.Active;
+                                await this.service.upsertListeners(item);
+                                this.eventsDataSource = this.getDataSource();
+                            }
+                            else {
+                                console.log('unable to activate/deactivate item')
+                            }
                         }
                     })
                 }
