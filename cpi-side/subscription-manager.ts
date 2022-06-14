@@ -1,6 +1,6 @@
 import '@pepperi-addons/cpi-node';
 import { EventData } from '@pepperi-addons/cpi-node';
-import {TransactionEventListeners} from '@pepperi-addons/events-shared'
+import {groupBy, TransactionEventListeners} from '@pepperi-addons/events-shared'
 
 export class SubscriptionManager {
     
@@ -77,10 +77,17 @@ export class SubscriptionManager {
     }
 
     async runEvents(events: TransactionEventListeners[], objectUUID: string = '', client: any) {
-        await Promise.all(events.map(async (event) => {
-            const scriptData = this.getEventData(event.RunScriptData, objectUUID);
-            await pepperi.scripts.key(event.RunScriptData.ScriptKey).run(scriptData, client)
-        }))
+        const groupedEvents = groupBy(events, (x:TransactionEventListeners) => x.Group);
+        Object.keys(groupedEvents).sort((a,b)=> {
+            return Number(a) - Number(b);
+        }).map(async(group) => {
+            console.log(`about to call group events for group ${group}. number of events: ${groupedEvents[group].length}`)
+            await Promise.all(groupedEvents[group].map((event) => {
+                const scriptData = this.getEventData(event.RunScriptData, objectUUID);
+                pepperi.scripts.key(event.RunScriptData.ScriptKey).run(scriptData, client)
+            }))
+            console.log(`after executing events for group ${group}`);
+        });
     }
 
     getEventData(data: any, objectUUID = '') {
