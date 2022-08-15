@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewContainerRef } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -6,13 +6,12 @@ import { TransactionEventsService } from "./transation-events.service";
 import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { TransactionEventListeners } from "@pepperi-addons/events-shared";
 import { FormMode, EventFormData } from '../entities';
-import { TransactionEventsFormComponent } from "./Form/transaction-events-form.component";
-import { GenericListComponent, IPepGenericListActions, IPepGenericListDataSource } from "@pepperi-addons/ngx-composite-lib/generic-list";
+import { IPepGenericListActions, IPepGenericListDataSource } from "@pepperi-addons/ngx-composite-lib/generic-list";
 import { PepSelectionData } from "@pepperi-addons/ngx-lib/list";
 import { Type } from "@pepperi-addons/papi-sdk";
-import { PepAddonBlockLoaderService } from "@pepperi-addons/ngx-lib/remote-loader";
 import { ActivatedRoute, Router } from "@angular/router";
 import { v4 as uuid } from 'uuid'
+import { config } from "../addon.config";
 
 @Component({
     selector: 'addon-block',
@@ -53,7 +52,7 @@ export class TransactionEventsComponent implements OnInit {
         //     this.atd = value;
         //     this.eventsDataSource = this.getDataSource();
         // });
-        this.service.addonUUID = this.activateRoute.snapshot.params.addon_uuid;
+        this.service.addonUUID = config.AddonUUID;
         this.eventsDataSource = this.getDataSource();
     }
 

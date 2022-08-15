@@ -9,6 +9,7 @@ The error Message is importent! it will be written in the audit log and help the
 */
 
 import { Client, Request } from '@pepperi-addons/debug-server'
+import { SettingsRelation } from './metadata';
 
 import { UtilitiesService } from './services/utilities-service';
 
@@ -21,8 +22,10 @@ export async function install(client: Client, request: Request): Promise<any> {
 
     try {
         await service.createADALScheme();
+        await service.createRelation(SettingsRelation);
     }
     catch (err) {
+        result.success = false;
         if (err instanceof Error) {
             result.errorMessage = `could not install addon. error messge ${err.message}`;
         }
@@ -38,7 +41,26 @@ export async function uninstall(client: Client, request: Request): Promise<any> 
 }
 
 export async function upgrade(client: Client, request: Request): Promise<any> {
-    return {success:true,resultObject:{}}
+    const service = new UtilitiesService(client);
+    const result = {
+        success: true,
+        errorMessage: ''
+    }
+
+    try {
+        await service.createADALScheme();
+        await service.createRelation(SettingsRelation);
+    }
+    catch (err) {
+        result.success = false;
+        if (err instanceof Error) {
+            result.errorMessage = `could not install addon. error messge ${err.message}`;
+        }
+        else {
+            result.errorMessage = 'Unknown error occured';
+        }
+    }
+    return result;
 }
 
 export async function downgrade(client: Client, request: Request): Promise<any> {

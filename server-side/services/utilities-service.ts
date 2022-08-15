@@ -1,7 +1,6 @@
 import { Client } from "@pepperi-addons/debug-server/dist";
 import { AddonDataScheme, PapiClient, Relation } from "@pepperi-addons/papi-sdk";
 import { SelectOptions, TransactionEventsScheme } from "@pepperi-addons/events-shared";
-import { AtdRelation } from "../metadata"
 
 export class UtilitiesService {
 
@@ -18,8 +17,8 @@ export class UtilitiesService {
         })
     }
 
-    async createRelation(): Promise<Relation> {
-        return await this.papiClient.addons.data.relations.upsert(AtdRelation);
+    async createRelation(relation: Relation): Promise<Relation> {
+        return await this.papiClient.addons.data.relations.upsert(relation);
     }
 
     async createADALScheme(): Promise<AddonDataScheme> {

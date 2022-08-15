@@ -23,6 +23,8 @@ import { PepGenericFormModule } from '@pepperi-addons/ngx-composite-lib/generic-
 import { TransactionEventsService } from './transation-events.service';
 import { TransactionEventsComponent } from './transaction-events.component';
 import { TransactionEventsFormComponent } from './Form/transaction-events-form.component';
+
+import { config } from '../addon.config'
 const pepIcons = [
     pepIconSystemClose,
 ];
@@ -58,7 +60,7 @@ export const routes: Routes = [
             loader: {
                 provide: TranslateLoader,
                 useFactory: (addonService: PepAddonService) => 
-                    PepAddonService.createMultiTranslateLoader(addonService, ['ngx-lib', 'ngx-composite-lib']),
+                    PepAddonService.createMultiTranslateLoader(config.AddonUUID, addonService, ['ngx-lib', 'ngx-composite-lib']),
                 deps: [PepAddonService]
             }
         }),

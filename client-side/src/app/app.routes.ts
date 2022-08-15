@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { TransactionEventsFormComponent } from './events/Form/transaction-events-form.component';
-import { TransactionEventsComponent } from './events/transaction-events.component';
 
 // Important for single spa
 @Component({
@@ -13,23 +11,9 @@ export class EmptyRouteComponent {}
 
 const routes: Routes = [
     {
-        path: `settings/:addon_uuid`,
-        children: [
-            {
-                path: ':editor',
-                component: TransactionEventsComponent
-                // TODO: solve routing
-                // path: '**',
-                // loadChildren: () => import('./addon/addon.module').then(m => m.BlockModule)
-            },
-            {
-                path: ':editor/:key',
-                component: TransactionEventsFormComponent
-                // TODO: solve routing
-                // path: '**',
-                // loadChildren: () => import('./addon/addon.module').then(m => m.BlockModule)
-            }
-        ]
+        path: '',
+        loadChildren: ()=> import('./settings/settings.module').then(m => m.SettingsModule),
+        
     },
     {
         path: '**',
@@ -38,7 +22,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
+    imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule]
 })
 export class AppRoutingModule { }

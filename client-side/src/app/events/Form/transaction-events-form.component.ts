@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Inject, Input, OnInit, Output, ViewChild, ViewContainerRef } from "@angular/core";
-import { KeyValuePair, PepLayoutService, PepScreenSizeType } from '@pepperi-addons/ngx-lib';
+import { Component, OnInit, ViewContainerRef } from "@angular/core";
 import { TranslateService } from '@ngx-translate/core';
 
 import { TransactionEventsService } from "../transation-events.service";
 import { PepDialogData, PepDialogService } from "@pepperi-addons/ngx-lib/dialog";
 import { PepAddonBlockLoaderService } from '@pepperi-addons/ngx-lib/remote-loader'
 import { EventKeys, EventTimings, SelectOptions, TransactionEventListeners } from "@pepperi-addons/events-shared";
-import { FormMode, EventFormData } from '../../entities';
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { EventFormData } from '../../entities';
 import { ActivatedRoute, Router } from "@angular/router";
+import { config } from "../../addon.config";
 
 @Component({
     selector: 'addon-block',
@@ -51,7 +50,7 @@ export class TransactionEventsFormComponent implements OnInit {
 
     ngOnInit() {
         //this.item = this.incoming.Item;
-        this.listenersService.addonUUID = this.activeRoute.snapshot.params.addon_uuid;
+        this.listenersService.addonUUID = config.AddonUUID;
         this.itemKey = this.activeRoute.snapshot.params.key;
         if (this.router['formData']) {
             this.formData = this.router['formData'];
