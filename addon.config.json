@@ -22,8 +22,7 @@
     ],
     "Dependencies": {},
     "CPISide": [
-      "addon-cpi.ts",
-      "subscription-manager.ts"
+      "addon-cpi.ts"
     ]
   }
 }

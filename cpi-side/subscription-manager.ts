@@ -82,9 +82,9 @@ export class SubscriptionManager {
             return Number(a) - Number(b);
         }).map(async(group) => {
             console.log(`about to call group events for group ${group}. number of events: ${groupedEvents[group].length}`)
-            await Promise.all(groupedEvents[group].map((event) => {
+            await Promise.all(groupedEvents[group].map(async (event) => {
                 const scriptData = this.getEventData(event.RunScriptData, objectUUID);
-                pepperi.scripts.key(event.RunScriptData.ScriptKey).run(scriptData, client)
+                await pepperi.scripts.key(event.RunScriptData.ScriptKey).run(scriptData, client)
             }))
             console.log(`after executing events for group ${group}`);
         });
