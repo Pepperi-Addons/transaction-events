@@ -78,7 +78,7 @@ export class SubscriptionManager {
 
     async runEvents(events: TransactionEventListeners[], objectUUID: string = '', client: any) {
         const groupedEvents = groupBy(events, (x:TransactionEventListeners) => x.Group);
-        Object.keys(groupedEvents).sort((a,b)=> {
+        await Promise.all(Object.keys(groupedEvents).sort((a,b)=> {
             return Number(a) - Number(b);
         }).map(async(group) => {
             console.log(`about to call group events for group ${group}. number of events: ${groupedEvents[group].length}`)
@@ -87,7 +87,7 @@ export class SubscriptionManager {
                 await pepperi.scripts.key(event.RunScriptData.ScriptKey).run(scriptData, client)
             }))
             console.log(`after executing events for group ${group}`);
-        });
+        }));
     }
 
     getEventData(data: any, objectUUID = '') {
